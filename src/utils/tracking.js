@@ -3,7 +3,15 @@
  * Safe to call even if window.fbq is not yet fully initialized or blocked.
  */
 
-export const trackEvent = (eventName, data = {}) => {
+const firedEvents = new Set();
+
+export const trackEvent = (eventName, data = {}, once = false) => {
+  if (once) {
+    const eventKey = `${eventName}-${JSON.stringify(data)}`;
+    if (firedEvents.has(eventKey)) return;
+    firedEvents.add(eventKey);
+  }
+
   if (typeof window !== 'undefined' && window.fbq) {
     window.fbq('track', eventName, data);
   } else {
@@ -12,7 +20,7 @@ export const trackEvent = (eventName, data = {}) => {
 };
 
 export const trackViewContent = (data = {}) => {
-  trackEvent('ViewContent', data);
+  trackEvent('ViewContent', data, true); // true = fire only once
 };
 
 export const trackContact = (data = {}) => {
