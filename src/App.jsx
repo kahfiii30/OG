@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, ArrowRight, Smartphone, ChevronRight } from 'lucide-react';
+import { trackViewContent, trackContact } from './utils/tracking';
 
 const products = [
   {
@@ -89,7 +90,7 @@ function App() {
           <div style={{ fontWeight: 700, fontSize: '1.25rem', letterSpacing: '-0.02em', color: 'var(--charcoal)' }}>
             OG Store
           </div>
-          <a href="https://wa.me/6282370707033" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}>
+          <a href="https://wa.me/6282370707033" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }} onClick={() => trackContact({ placement: 'navbar' })}>
             <MessageCircle size={16} style={{ marginRight: '0.5rem' }} />
             Hubungi Kami
           </a>
@@ -121,7 +122,7 @@ function App() {
                 <a href="#collection" className="btn btn-primary">
                   Lihat Koleksi <ArrowRight size={18} style={{ marginLeft: '0.5rem' }} />
                 </a>
-                <a href="https://wa.me/6282370707033" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+                <a href="https://wa.me/6282370707033" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" onClick={() => trackContact({ placement: 'hero' })}>
                   Tukar Tambah
                 </a>
               </motion.div>
@@ -165,6 +166,7 @@ function App() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
+            onViewportEnter={() => trackViewContent({ content_name: 'Featured Collection' })}
             variants={fadeUp}
             style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem' }}
           >
@@ -266,6 +268,7 @@ function App() {
           href="https://wa.me/6282370707033" 
           target="_blank" 
           rel="noopener noreferrer"
+          onClick={() => trackContact({ placement: 'floating' })}
           style={{
             display: 'flex',
             alignItems: 'center',
